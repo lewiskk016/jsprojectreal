@@ -1,4 +1,3 @@
-const emp =
 {
     "realtime_start": "2023-05-05",
     "realtime_end": "2023-05-05",
@@ -1767,4 +1766,4 @@ const emp =
         }
     ]
 }
-// https://api.stlouisfed.org/fred/series/observations?series_id=PAYEMS&api_key=8033f2da8ce64ec092c6feb6cbef9b01&observation_start=1999-01-01&file_type=json
+
