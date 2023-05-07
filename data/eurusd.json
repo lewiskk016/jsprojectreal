@@ -1,4 +1,3 @@
-const cur =
 {
     "realtime_start": "2023-05-04",
     "realtime_end": "2023-05-04",
@@ -38087,4 +38086,4 @@ const cur =
 }
 
 
-// https://api.stlouisfed.org/fred/series/observations?series_id=DEXUSEU&api_key=8033f2da8ce64ec092c6feb6cbef9b01&file_type=json
+
