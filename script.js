@@ -11,33 +11,24 @@ fetch('data/eur_usd.json')
 
 function createChart(data) {
   const currencySelect = document.getElementById('currency');
-  currencySelect.addEventListener('change', function() {
-    const selectedCurrency = currencySelect.value;
-    const dataFile = 'data/gbp_usd.json';
-
-    fetch(dataFile)
-      .then(response => response.json())
-      .then(data => {
-        myChart.data.labels = data.observations.map(entry => entry.date);
-        myChart.data.datasets[0].data = data.observations.map(entry => entry.value);
-        myChart.update();
-      })
-      .catch(error => {
-        console.error('Error retrieving currency data:', error);
-      });
-  });
-
-  const dates = data.observations.map(entry => entry.date);
-  const values = data.observations.map(entry => entry.value);
-
   const ctx = document.getElementById('myChart').getContext('2d');
-  myChart = new Chart(ctx, { // Assign the created chart to myChart
+  let myChart = null;
+
+  function updateChart(data) {
+    const dates = data.observations.map(entry => entry.date);
+    const values = data.observations.map(entry => entry.value);
+    myChart.data.labels = dates;
+    myChart.data.datasets[0].data = values;
+    myChart.update();
+  }
+
+  myChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: dates,
+      labels: data.observations.map(entry => entry.date),
       datasets: [{
         label: 'Currency Data',
-        data: values,
+        data: data.observations.map(entry => entry.value),
         borderColor: 'rgba (10, 10, 10, 1)',
         fill: false
       }]
@@ -74,11 +65,11 @@ function createChart(data) {
             mode: 'xy',
             rangeMin: {
               x: null,
-              y: 0 // minimum zoom level
+              y: 0
             },
             rangeMax: {
-              x: null, //
-              y: 1.6 // maximum zoom level
+              x: null,
+              y: null
             },
             speed: .1,
             threshold: 2,
@@ -97,14 +88,123 @@ function createChart(data) {
       }
     }
   });
+
+  currencySelect.addEventListener('change', function() {
+    const selectedCurrency = currencySelect.value;
+    let dataFile;
+
+    if (selectedCurrency === 'currency0') {
+      dataFile = 'data/eur_usd.json';
+    } else if (selectedCurrency === 'currency1') {
+      dataFile = 'data/gbp_usd.json';
+    } else if (selectedCurrency === 'currency2') {
+      dataFile = 'data/usd_chf.json';
+    } else if (selectedCurrency === 'currency3') {
+      dataFile = 'data/usd_jpy.json';
+    }
+
+    fetch(dataFile)
+      .then(response => response.json())
+      .then(data => {
+        updateChart(data);
+      })
+      .catch(error => {
+        console.error('Error retrieving currency data:', error);
+      });
+  });
 }
 
 
+// function createChart(data) {
+//   const currencySelect = document.getElementById('currency');
+//   currencySelect.addEventListener('change', function() {
+//     const selectedCurrency = currencySelect.value;
+//     const dataFile = 'data/gbp_usd.json';
+//     // const dataFile = 'data/${currency}.json';
 
+//     fetch(dataFile)
+//       .then(response => response.json())
+//       .then(data => {
+//         myChart.data.labels = data.observations.map(entry => entry.date);
+//         myChart.data.datasets[0].data = data.observations.map(entry => entry.value);
+//         myChart.update();
+//       })
+//       .catch(error => {
+//         console.error('Error retrieving currency data:', error);
+//       });
+//   });
 
+//   const dates = data.observations.map(entry => entry.date);
+//   const values = data.observations.map(entry => entry.value);
 
-
-
+//   const ctx = document.getElementById('myChart').getContext('2d');
+//   myChart = new Chart(ctx, { // Assign the created chart to myChart
+//     type: 'line',
+//     data: {
+//       labels: dates,
+//       datasets: [{
+//         label: 'Currency Data',
+//         data: values,
+//         borderColor: 'rgba (10, 10, 10, 1)',
+//         fill: false
+//       }]
+//     },
+//     options: {
+//       scales: {
+//         y: {
+//           suggestedMin: 0.0000,
+//           suggestedMax: 1.70000
+//         }
+//       },
+//       plugins: {
+//         zoom: {
+//           pan: {
+//             enabled: true,
+//             mode: 'xy',
+//             rangeMin: {
+//               x: null,
+//               y: null
+//             },
+//             rangeMax: {
+//               x: null,
+//               y: null
+//             },
+//             onPan: function ({ chart }) {
+//               console.log("Panning!");
+//             },
+//             onPanComplete: function ({ chart }) {
+//               console.log("Panned!");
+//             }
+//           },
+//           zoom: {
+//             enabled: true,
+//             mode: 'xy',
+//             rangeMin: {
+//               x: null,
+//               y: 0 // minimum zoom level
+//             },
+//             rangeMax: {
+//               x: null, //
+//               y: 2.5 // maximum zoom level
+//             },
+//             speed: .1,
+//             threshold: 2,
+//             sensitivity: 3,
+//             onZoom: function ({ chart }) {
+//               console.log("Zooming!");
+//             },
+//             onZoomComplete: function ({ chart }) {
+//               console.log("Zoomed!");
+//             }
+//           },
+//           scrollbar: {
+//             enabled: true,
+//           }
+//         }
+//       }
+//     }
+//   });
+// }
 
 
 
