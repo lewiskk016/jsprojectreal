@@ -1,4 +1,4 @@
-let myChart
+// let myChart
 
 fetch('data/eur_usd.json')
   .then(response => response.json())
@@ -29,18 +29,34 @@ function createChart(data) {
       datasets: [{
         label: 'Currency Data',
         data: data.observations.map(entry => entry.value),
-        borderColor: 'rgba (10, 10, 10, 1)',
+        borderColor: 'rgba (80, 80, 90, 60)',
         fill: false
       }]
     },
     options: {
       scales: {
         y: {
-          suggestedMin: 0.0000,
-          suggestedMax: 1.70000
+          type: 'linear',
+          min: 0.0000,
+          max: 1.70000,
+          // suggestedMin: 0.0000,
+          // suggestedMax: 1.70000
+        },
+        x: {
+          type: 'time',
+          min: new Date('1999-01-04').valueOf(),
+          max: new Date('2022-05-08').valueOf(),
         }
       },
+      padding: {
+        x: 100,
+        y: 100,
+      },
       plugins: {
+        decimation: {
+          enabled: true,
+          algorithm: 'lttb',
+        },
         zoom: {
           pan: {
             enabled: true,
