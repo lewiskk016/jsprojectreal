@@ -1,56 +1,94 @@
-// let myChart
-
 fetch('data/eur_usd.json')
   .then(response => response.json())
-  .then(data => {
-    createChart(data);
+  .then(currencyData => {
+    console.log('Currency data:', currencyData);
+    fetch('data/cpi.json')
+      .then(response => response.json())
+      .then(macroData => {
+        console.log('Macro data:', macroData);
+        createChart(currencyData, macroData);
+      })
+      .catch(error => {
+        console.error('Error retrieving macro data:', error);
+      });
   })
   .catch(error => {
     console.error('Error retrieving currency data:', error);
   });
 
-function createChart(data) {
+function createChart(currencyData, macroData) {
   const currencySelect = document.getElementById('currency');
+  const macroDataSelect = document.getElementById('macroData');
   const ctx = document.getElementById('myChart').getContext('2d');
   let myChart = null;
 
-  function updateChart(data) {
-    const dates = data.observations.map(entry => entry.date);
-    const values = data.observations.map(entry => entry.value);
-    myChart.data.labels = dates;
-    myChart.data.datasets[0].data = values;
+  function updateChart(updatedCurrencyData, updatedMacroData) {
+    const currencyDates = updatedCurrencyData.observations.map(entry => entry.date);
+    const currencyValues = updatedCurrencyData.observations.map(entry => entry.value);
+    const macroDates = updatedMacroData.observations.map(entry => entry.date);
+    const macroValues = updatedMacroData.observations.map(entry => entry.value);
+
+    myChart.data.labels = currencyDates;
+    myChart.data.datasets[0].data = currencyValues;
+    myChart.data.datasets[1].data = macroValues;
     myChart.update();
   }
+
 
   myChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: data.observations.map(entry => entry.date),
+      labels: currencyData.observations.map(entry => entry.date),
       datasets: [{
         label: 'Currency Data',
-        data: data.observations.map(entry => entry.value),
-        borderColor: 'rgba (80, 80, 90, 60)',
-        fill: false
+        data: currencyData.observations.map(entry => entry.value),
+        borderColor: 'rgb(255, 99, 132)',
+        fill: false,
+        yAxisID: 'currency',
+        // xAxisID: 'currency',
+      }, {
+        label: 'Macro Data',
+        data: macroData.observations.map(entry => entry.value),
+        borderColor: 'rgb(54, 162, 235)',
+        fill: false,
+        yAxisID: 'macro',
+        // xAxisID: 'macro',
+        // display: true,
+
       }]
     },
     options: {
-      scales: {
-        y: {
-          type: 'linear',
-          min: 0.0000,
-          max: 1.70000,
-          // suggestedMin: 0.0000,
-          // suggestedMax: 1.70000
-        },
-        x: {
-          type: 'time',
-          min: new Date('1999-01-04').valueOf(),
-          max: new Date('2022-05-08').valueOf(),
-        }
+      // responsiveness: true,
+      tooltips: {
+        // mode: 'nearest',
+        // intersect: true,
       },
-      padding: {
-        x: 100,
-        y: 100,
+      scales: {
+        yAxes: [{
+          id: 'currency',
+          type: 'linear',
+          position: 'left',
+          display: true,
+      }, {
+          id: 'macro',
+          type: 'linear',
+          position: 'right',
+          display: true,
+      }],
+        xAxes: [{
+          gridLines: {
+            offsetGridLines: false,
+          }
+        }, {
+          id: 'macro',
+          type: 'linear',
+          position: 'bottom',
+          ticks: {
+            min: new Date('1999-01-04').valueOf(),
+            stepSize: 30,
+        }
+          }],
+
       },
       plugins: {
         decimation: {
@@ -58,50 +96,22 @@ function createChart(data) {
           algorithm: 'lttb',
         },
         zoom: {
-          pan: {
-            enabled: true,
-            mode: 'xy',
-            rangeMin: {
-              x: null,
-              y: null
-            },
-            rangeMax: {
-              x: null,
-              y: null
-            },
-            onPan: function ({ chart }) {
-              console.log("Panning!");
-            },
-            onPanComplete: function ({ chart }) {
-              console.log("Panned!");
-            }
-          },
           zoom: {
-            enabled: true,
+            wheel: {
+              enabled: true,
+            },
+            pinch: {
+              enabled: true,
+            },
             mode: 'xy',
-            rangeMin: {
-              x: null,
-              y: 0
-            },
-            rangeMax: {
-              x: null,
-              y: null
-            },
-            speed: .1,
-            threshold: 2,
-            sensitivity: 3,
-            onZoom: function ({ chart }) {
-              console.log("Zooming!");
-            },
-            onZoomComplete: function ({ chart }) {
-              console.log("Zoomed!");
-            }
           },
-          scrollbar: {
-            enabled: true,
-          }
-        }
-      }
+        },
+      },
+      elements: {
+        line: {
+          tension: 1,
+        },
+      },
     }
   });
 
@@ -122,13 +132,511 @@ function createChart(data) {
     fetch(dataFile)
       .then(response => response.json())
       .then(data => {
-        updateChart(data);
+        updateChart(data, macroData);
       })
       .catch(error => {
         console.error('Error retrieving currency data:', error);
       });
   });
+  macroDataSelect.addEventListener('change', function() {
+        const selectedMacroData = macroDataSelect.value;
+        let dataFile;
+
+
+        if (selectedMacroData === 'macroData0') {
+            dataFile = 'data/cpi.json';
+        } else if (selectedMacroData === 'macroData1') {
+            dataFile = 'data/employment.json';
+        } else if (selectedMacroData === 'macroData2') {
+            dataFile = 'data/fedfunds.json';
+        }
+        console.log('Macro data file:', dataFile);
+        fetch(dataFile)
+          .then(response => response.json())
+          .then(data => {
+            updateChart(currencyData, data);
+          })
+          .catch(error => {
+            console.error('Error retrieving macro data:', error);
+          });
+      })
 }
+
+
+
+
+
+
+// fetch('data/eur_usd.json')
+//   .then(response => response.json())
+//   .then(data => {
+//     createChart(data);
+//   })
+//   .catch(error => {
+//     console.error('Error retrieving currency data:', error);
+//   });
+
+// function createChart(data) {
+//   const currencySelect = document.getElementById('currency');
+//   const ctx = document.getElementById('myChart').getContext('2d');
+//   let myChart = null;
+
+//   function updateChart(data) {
+//     const dates = data.observations.map(entry => entry.date);
+//     const values = data.observations.map(entry => entry.value);
+//     myChart.data.labels = dates;
+//     myChart.data.datasets[0].data = values;
+//     myChart.update();
+//   }
+
+//   myChart = new Chart(ctx, {
+//     type: 'line',
+//     data: {
+//       labels: data.observations.map(entry => entry.date),
+//       datasets: [{
+//         label: 'Currency Data',
+//         data: data.observations.map(entry => entry.value),
+//         color: 'rgb(255, 99, 132)',
+//         fill: false
+//       }]
+//     },
+//     options: {
+//       scales: {
+//         yAxes: [{
+//           id: 'currency',
+//           type: 'linear',
+//           position: 'right',
+//         }],
+//         // y: {
+//         //   type: 'linear',
+//         //   min: 0.0000,
+//         //   max: 1.70000,
+//         //   position: 'right',
+//         // },
+//         // x: {
+//         //   type: 'time',
+//         //   min: new Date('1999-01-04').valueOf(),
+//         //   max: new Date('2022-05-08').valueOf(),
+//         // }
+//       },
+//       plugins: {
+//         decimation: {
+//           enabled: true,
+//           algorithm: 'lttb',
+//         },
+//       }
+//     }
+//   });
+
+//   currencySelect.addEventListener('change', function() {
+//     const selectedCurrency = currencySelect.value;
+//     let dataFile;
+
+//     if (selectedCurrency === 'currency0') {
+//       dataFile = 'data/eur_usd.json';
+//     } else if (selectedCurrency === 'currency1') {
+//       dataFile = 'data/gbp_usd.json';
+//     } else if (selectedCurrency === 'currency2') {
+//       dataFile = 'data/usd_chf.json';
+//     } else if (selectedCurrency === 'currency3') {
+//       dataFile = 'data/usd_jpy.json';
+//     }
+
+//     fetch(dataFile)
+//       .then(response => response.json())
+//       .then(data => {
+//         updateChart(data);
+//       })
+//       .catch(error => {
+//         console.error('Error retrieving currency data:', error);
+//       });
+//   });
+
+
+
+//   macroDataSelect.addEventListener('change', function() {
+//     const selectedMacroData = macroDataSelect.value;
+//     let dataFile;
+
+
+//     if (selectedMacroData === 'macroData0') {
+//         dataFile = 'data/cpi.json';
+//     } else if (selectedMacroData === 'macroData1') {
+//         dataFile = 'data/employment.json';
+//     } else if (selectedMacroData === 'macroData2') {
+//         dataFile = 'data/fedfunds.json';
+//     }
+//     fetch(dataFile)
+//       .then(response => response.json())
+//       .then(data => {
+//         updateChart(data);
+//       })
+//       .catch(error => {
+//         console.error('Error retrieving macro data:', error);
+//       });
+//   })
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// fetch('data/eur_usd.json')
+//   .then(response => response.json())
+//   .then(data => {
+//     createChart(data);
+//   })
+//   .catch(error => {
+//     console.error('Error retrieving currency data:', error);
+//   });
+
+// function createChart(data) {
+//   const currencySelect = document.getElementById('currency');
+//   const ctx = document.getElementById('myChart').getContext('2d');
+//   let myChart = null;
+
+//   function updateChart(data) {
+//     const dates = data.observations.map(entry => entry.date);
+//     const values = data.observations.map(entry => entry.value);
+//     myChart.data.labels = dates;
+//     myChart.data.datasets[0].data = values;
+//     myChart.update();
+//   }
+
+//   myChart = new Chart(ctx, {
+//     type: 'line',
+//     data: {
+//       labels: data.observations.map(entry => entry.date),
+//       datasets: [{
+//         label: 'Currency Data',
+//         data: data.observations.map(entry => entry.value),
+//         color: 'rgb(255, 99, 132)',
+//         fill: false
+//       }]
+//     },
+//     options: {
+//       scales: {
+//         y: {
+//           type: 'linear',
+//           min: 0.0000,
+//           max: 1.70000,
+//           // suggestedMin: 0.0000,
+//           // suggestedMax: 1.70000
+//         },
+//         x: {
+//           type: 'time',
+//           min: new Date('1999-01-04').valueOf(),
+//           max: new Date('2022-05-08').valueOf(),
+//         }
+//       },
+//       padding: {
+//         x: 100,
+//         y: 100,
+//       },
+//       plugins: {
+//         decimation: {
+//           enabled: true,
+//           algorithm: 'lttb',
+//         },
+//         zoom: {
+//           pan: {
+//             enabled: true,
+//             mode: 'xy',
+//             rangeMin: {
+//               x: null,
+//               y: null
+//             },
+//             rangeMax: {
+//               x: null,
+//               y: null
+//             },
+//             onPan: function ({ chart }) {
+//               console.log("Panning!");
+//             },
+//             onPanComplete: function ({ chart }) {
+//               console.log("Panned!");
+//             }
+//           },
+//           zoom: {
+//             enabled: true,
+//             mode: 'xy',
+//             rangeMin: {
+//               x: null,
+//               y: 0
+//             },
+//             rangeMax: {
+//               x: null,
+//               y: null
+//             },
+//             speed: .05,
+//             threshold: .5,
+//             sensitivity: 2,
+//             onZoom: function ({ chart }) {
+//               console.log("Zooming!");
+//             },
+//             onZoomComplete: function ({ chart }) {
+//               console.log("Zoomed!");
+//             }
+//           },
+//           scrollbar: {
+//             enabled: true,
+//           }
+//         }
+//       }
+//     }
+//   });
+
+//   currencySelect.addEventListener('change', function() {
+//     const selectedCurrency = currencySelect.value;
+//     let dataFile;
+
+//     if (selectedCurrency === 'currency0') {
+//       dataFile = 'data/eur_usd.json';
+//     } else if (selectedCurrency === 'currency1') {
+//       dataFile = 'data/gbp_usd.json';
+//     } else if (selectedCurrency === 'currency2') {
+//       dataFile = 'data/usd_chf.json';
+//     } else if (selectedCurrency === 'currency3') {
+//       dataFile = 'data/usd_jpy.json';
+//     }
+
+//     fetch(dataFile)
+//       .then(response => response.json())
+//       .then(data => {
+//         updateChart(data);
+//       })
+//       .catch(error => {
+//         console.error('Error retrieving currency data:', error);
+//       });
+//   });
+
+
+
+//   macroDataSelect.addEventListener('change', function() {
+//     const selectedMacroData = macroDataSelect.value;
+//     let dataFile;
+
+
+//     if (selectedMacroData === 'macroData0') {
+//         dataFile = 'data/cpi.json';
+//     } else if (selectedMacroData === 'macroData1') {
+//         dataFile = 'data/employment.json';
+//     } else if (selectedMacroData === 'macroData2') {
+//         dataFile = 'data/fedfunds.json';
+//     }
+//     fetch(dataFile)
+//       .then(response => response.json())
+//       .then(data => {
+//         updateChart(data);
+//       })
+//       .catch(error => {
+//         console.error('Error retrieving macro data:', error);
+//       });
+//   })
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// fetch('data/eur_usd.json')
+//   .then(response => response.json())
+//   .then(data => {
+//     createChart(data);
+//   })
+//   .catch(error => {
+//     console.error('Error retrieving currency data:', error);
+//   });
+
+// function createChart(data) {
+//   const currencySelect = document.getElementById('currency');
+//   const ctx = document.getElementById('myChart').getContext('2d');
+//   let myChart = null;
+
+//   function updateChart(data) {
+//     const dates = data.observations.map(entry => entry.date);
+//     const values = data.observations.map(entry => entry.value);
+//     myChart.data.labels = dates;
+//     myChart.data.datasets[0].data = values;
+//     myChart.update();
+//   }
+
+//   myChart = new Chart(ctx, {
+//     type: 'line',
+//     data: {
+//       labels: data.observations.map(entry => entry.date),
+//       datasets: [{
+//         label: 'Currency Data',
+//         data: data.observations.map(entry => entry.value),
+//         color: 'rgb(255, 99, 132)',
+//         fill: false
+//       }]
+//     },
+//     options: {
+//       scales: {
+//         y: {
+//           type: 'linear',
+//           min: 0.0000,
+//           max: 1.70000,
+//           // suggestedMin: 0.0000,
+//           // suggestedMax: 1.70000
+//         },
+//         x: {
+//           type: 'time',
+//           min: new Date('1999-01-04').valueOf(),
+//           max: new Date('2022-05-08').valueOf(),
+//         }
+//       },
+//       padding: {
+//         x: 100,
+//         y: 100,
+//       },
+//       plugins: {
+//         decimation: {
+//           enabled: true,
+//           algorithm: 'lttb',
+//         },
+//         zoom: {
+//           pan: {
+//             enabled: true,
+//             mode: 'xy',
+//             rangeMin: {
+//               x: null,
+//               y: null
+//             },
+//             rangeMax: {
+//               x: null,
+//               y: null
+//             },
+//             onPan: function ({ chart }) {
+//               console.log("Panning!");
+//             },
+//             onPanComplete: function ({ chart }) {
+//               console.log("Panned!");
+//             }
+//           },
+//           zoom: {
+//             enabled: true,
+//             mode: 'xy',
+//             rangeMin: {
+//               x: null,
+//               y: 0
+//             },
+//             rangeMax: {
+//               x: null,
+//               y: null
+//             },
+//             speed: .05,
+//             threshold: .5,
+//             sensitivity: 2,
+//             onZoom: function ({ chart }) {
+//               console.log("Zooming!");
+//             },
+//             onZoomComplete: function ({ chart }) {
+//               console.log("Zoomed!");
+//             }
+//           },
+//           scrollbar: {
+//             enabled: true,
+//           }
+//         }
+//       }
+//     }
+//   });
+
+//   currencySelect.addEventListener('change', function() {
+//     const selectedCurrency = currencySelect.value;
+//     let dataFile;
+
+//     if (selectedCurrency === 'currency0') {
+//       dataFile = 'data/eur_usd.json';
+//     } else if (selectedCurrency === 'currency1') {
+//       dataFile = 'data/gbp_usd.json';
+//     } else if (selectedCurrency === 'currency2') {
+//       dataFile = 'data/usd_chf.json';
+//     } else if (selectedCurrency === 'currency3') {
+//       dataFile = 'data/usd_jpy.json';
+//     }
+
+//     fetch(dataFile)
+//       .then(response => response.json())
+//       .then(data => {
+//         updateChart(data);
+//       })
+//       .catch(error => {
+//         console.error('Error retrieving currency data:', error);
+//       });
+//   });
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // function createChart(data) {
