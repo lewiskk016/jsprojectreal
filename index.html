@@ -15,45 +15,49 @@
     <div class="chartMenu">
       <label for="currency">Currency:</label>
         <select id="currency">
-          <option value="currency0">EUR/USD</option>
+                <option value="currency0">EUR/USD</option>
                 <option value="currency1">GBP/USD</option>
                 <option value="currency2">USD/CHF</option>
                 <option value="currency3">USD/JPY</option>
         </select>
         <label for="macroData">Macro Data:</label>
         <select id="macroData">
-          <option value="macroData0">Consumer Price Index</option>
+                <option value="macroData0">Consumer Price Index</option>
                 <option value="macroData1">Employment</option>
                 <option value="macroData2">Federal Funds Rate</option>
         </select>
+
         <button id="instructionsButton">Instructions</button>
-        </div>
+    </div>
 
-        <div class="chartAreaWrapper">
-          <canvas id="myChart"></canvas>
-        </div>
+    <div class="chartAreaWrapper">
+      <canvas id="myChart"></canvas>
+    </div>
 
-        <div class="instructionsWrapper" id="instructionsWrapper">
-         <h3>Instructions</h3>
-         <p>THESE ARE THE INSTRUCTIONS...</p>
+    <div class="instructionsWrapper" id="instructionsWrapper">
+      <h3>Instructions</h3>
+         <p>As global trade increases, the foreign exchange market has become increasingly important,</p>
          <div class="instructionsClose">
-            <button class="closeButton">close</button>
+            <button id="closeButton">Close</button>
          </div>
-         </div>
-        </div>
+      </div>
+    </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 
-  <script>
-    document.getElementById('instructionsButton').addEventListener('click', function() {
-      document.getElementById('instructionsWrapper').style.display = 'block';
-    });
+    <script>
+        document.getElementById('instructionsButton').addEventListener('click', function() {
+        document.getElementById('instructionsWrapper').style.display = 'block';
+        });
 
-    document.getElementById('closeButton').addEventListener('click', function() {
-      document.getElementById('instructionsWrapper').style.display = 'none';
-    });
-  </script>
+
+        document.getElementById('closeButton').addEventListener('click', function() {
+        document.getElementById('instructionsWrapper').style.display = 'none';
+        });
+    </script>
 
 </body>
 </html>

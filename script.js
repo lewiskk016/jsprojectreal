@@ -22,33 +22,6 @@ function createChart(currencyData, macroData) {
   const ctx = document.getElementById('myChart').getContext('2d');
   let myChart = null;
 
-// test
-
-
-
-  // function updateChart(updatedCurrencyData, updatedMacroData) {
-  //   const currencyDates = updatedCurrencyData.observations.map(entry => entry.date);
-  //   const currencyValues = updatedCurrencyData.observations.map(entry => entry.value);
-  //   const macroDates = updatedMacroData.observations.map(entry => entry.date);
-  //   const macroValues = updatedMacroData.observations.map(entry => entry.value);
-
-  //   const combinedDates = currencyDates.slice();
-  //   const combinedValues = currencyValues.slice();
-
-  //   macroDates.forEach((macroDate, index) => {
-  //     if (!currencyDates.includes(macroDate)) {
-  //       combinedDates.push(macroDate);
-  //       combinedValues.push(null);
-  //     }
-  //   });
-
-
-  //   myChart.data.labels = combinedDates;
-  //   myChart.data.datasets[0].data = combinedValues;
-  //   myChart.data.datasets[1].data = macroValues;
-  //   myChart.update();
-  // }
-
   function updateChart(updatedCurrencyData, updatedMacroData) {
     const currencyDates = updatedCurrencyData.observations.map(entry => entry.date);
     const currencyValues = updatedCurrencyData.observations.map(entry => entry.value);
@@ -65,14 +38,13 @@ function createChart(currencyData, macroData) {
     type: 'line',
     data: {
       labels: currencyData.observations.map(entry => entry.date),
-      // label: macroData.observations.map(entry => entry.date),
       datasets: [{
         type: 'line',
         label: 'Currency Data',
         data: currencyData.observations.map(entry => entry.value),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderWidth: 3,
+        borderColor: 'rgb(10, 10, 200)',
+        backgroundColor: 'rgb(10, 10, 200)',
+        borderWidth: 1,
         fill: false,
         yAxisID: 'currency',
         // xAxisID: 'currency-x-axis',
@@ -90,42 +62,10 @@ function createChart(currencyData, macroData) {
       }]
     },
     options: {
-      // responsiveness: true,
       tooltips: {
-        // mode: 'nearest',
-        // intersect: true,
+        mode: 'index',
       },
       scales: {
-        // xAxes: {
-        //   type: 'time',
-        //   ticks: {
-        //     maxRotation: 0,
-        //     autoSkip: true,
-        //     maxTicksLimit: 10,
-        // }},
-        // xAxes: [{
-        //   id: 'currency-x-axis',
-        //   type: 'time',
-        //   time: {
-        //     unit: 'day',
-        //   },
-        //  display: true,
-        //   }, {
-        //   id: 'macro-x-axis',
-        //   type: 'time',
-        //   time: {
-        //     unit: 'month',
-        //   }
-        // }],
-          // // id: 'cc',
-          // type: 'linear',
-
-          // }, {
-          // // id: 'ma',
-          // type: 'linear',
-          // }],
-
-
         yAxes: [{
           id: 'currency',
           type: 'linear',
@@ -182,6 +122,7 @@ function createChart(currencyData, macroData) {
     fetch(dataFile)
       .then(response => response.json())
       .then(data => {
+        currencyData = data;
         updateChart(data, macroData);
       })
       .catch(error => {
@@ -204,6 +145,7 @@ function createChart(currencyData, macroData) {
         fetch(dataFile)
           .then(response => response.json())
           .then(data => {
+            macroData = data;
             updateChart(currencyData, data);
           })
           .catch(error => {
@@ -211,6 +153,39 @@ function createChart(currencyData, macroData) {
           });
       })
 }
+
+
+
+// xAxes: {
+        //   type: 'time',
+        //   ticks: {
+        //     maxRotation: 0,
+        //     autoSkip: true,
+        //     maxTicksLimit: 10,
+        // }},
+        // xAxes: [{
+        //   id: 'currency-x-axis',
+        //   type: 'time',
+        //   time: {
+        //     unit: 'day',
+        //   },
+        //  display: true,
+        //   }, {
+        //   id: 'macro-x-axis',
+        //   type: 'time',
+        //   time: {
+        //     unit: 'month',
+        //   }
+        // }],
+          // // id: 'cc',
+          // type: 'linear',
+
+          // }, {
+          // // id: 'ma',
+          // type: 'linear',
+          // }],
+
+
 
 
 
