@@ -1,4 +1,8 @@
-fetch('data/eur_usd.json')
+let currencyData;
+let macroData;
+
+
+fetch('data/eur_usd_m.json')
   .then(response => response.json())
   .then(currencyData => {
     console.log('Currency data:', currencyData);
@@ -28,7 +32,8 @@ function createChart(currencyData, macroData) {
     const macroDates = updatedMacroData.observations.map(entry => entry.date);
     const macroValues = updatedMacroData.observations.map(entry => entry.value);
 
-    myChart.data.labels = currencyDates;
+    myChart.data.labels = macroDates;
+    // myChart.data.labels = currencyDates;
     myChart.data.datasets[0].data = currencyValues;
     myChart.data.datasets[1].data = macroValues;
     myChart.update();
@@ -110,15 +115,16 @@ function createChart(currencyData, macroData) {
     let dataFile;
 
     if (selectedCurrency === 'currency0') {
-      dataFile = 'data/eur_usd.json';
+      dataFile = 'data/eur_usd_m.json';
     } else if (selectedCurrency === 'currency1') {
-      dataFile = 'data/gbp_usd.json';
+      dataFile = 'data/gbp_usd_m.json';
     } else if (selectedCurrency === 'currency2') {
-      dataFile = 'data/usd_chf.json';
+      dataFile = 'data/usd_chf_m.json';
     } else if (selectedCurrency === 'currency3') {
-      dataFile = 'data/usd_jpy.json';
+      dataFile = 'data/usd_jpy_m.json';
     }
 
+    console.log('Currency data file:', dataFile);
     fetch(dataFile)
       .then(response => response.json())
       .then(data => {
@@ -140,6 +146,8 @@ function createChart(currencyData, macroData) {
             dataFile = 'data/employment.json';
         } else if (selectedMacroData === 'macroData2') {
             dataFile = 'data/fedfunds.json';
+        // } else if (selectedMacroData === 'macroData3') {
+        //     dataFile = 'data/gdp.json';
         }
         console.log('Macro data file:', dataFile);
         fetch(dataFile)
@@ -151,7 +159,7 @@ function createChart(currencyData, macroData) {
           .catch(error => {
             console.error('Error retrieving macro data:', error);
           });
-      })
+      });
 }
 
 
