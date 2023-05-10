@@ -5,49 +5,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <link rel="stylesheet" href="./dist/main.css" />
-  <title>Project Name</title>
+  <title>Forex Facade</title>
   <link rel="stylesheet" href="index.css" />
 </head>
 
 
 <body>
   <div class="chartWrapper">
-    <div class="chartAreaWrapper">
-      <canvas id="myChart"></canvas>
-      <!-- <canvas id="myChartAxis"></canvas> -->
-      <div class="container">
+    <div class="chartMenu">
+      <label for="currency">Currency:</label>
+        <select id="currency">
+          <option value="currency0">EUR/USD</option>
+                <option value="currency1">GBP/USD</option>
+                <option value="currency2">USD/CHF</option>
+                <option value="currency3">USD/JPY</option>
+        </select>
+        <label for="macroData">Macro Data:</label>
+        <select id="macroData">
+          <option value="macroData0">Consumer Price Index</option>
+                <option value="macroData1">Employment</option>
+                <option value="macroData2">Federal Funds Rate</option>
+        </select>
+        <button id="instructionsButton">Instructions</button>
+        </div>
+
+        <div class="chartAreaWrapper">
+          <canvas id="myChart"></canvas>
+        </div>
+
+        <div class="instructionsWrapper" id="instructionsWrapper">
+         <h3>Instructions</h3>
+         <p>THESE ARE THE INSTRUCTIONS...</p>
+         <div class="instructionsClose">
+            <button class="closeButton">close</button>
+         </div>
+         </div>
+        </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
+  <script src="script.js"></script>
+
+  <script>
+    document.getElementById('instructionsButton').addEventListener('click', function() {
+      document.getElementById('instructionsWrapper').style.display = 'block';
+    });
+
+    document.getElementById('closeButton').addEventListener('click', function() {
+      document.getElementById('instructionsWrapper').style.display = 'none';
+    });
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+
+ <!-- <canvas id="myChartAxis"></canvas> -->
+      <!-- <div class="container">
         <div class="row">
           <div class="col-12">
             <div class="currencies">
               <label for="currency">Currency:</label>
               <select id="currency">
-                <option value="currency0">EUR/USD</option>
-                <option value="currency1">GBP/USD</option>
-                <option value="currency2">USD/CHF</option>
-                <option value="currency3">USD/JPY</option>
+
               </select>
-            <div>
-              <label for="macroData">Macro Data:</label>
-              <select id="macroData">
-                <option value="macroData0">Consumer Price Index</option>
-                <option value="macroData1">Employment</option>
-                <option value="macroData2">Federal Funds Rate</option>
+            <div> -->
+              <!-- <label for="macroData">Macro Data:</label>
+              <select id="macroData"> -->
+
                 <!-- <option value="macro3">GDP</option> -->
-              </select>
+              <!-- </select>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
-  <script src="script.js"></script>
-
-  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
-  <!-- <script type="text/javascript" src="https://rawgit.com/nnnick/Chart.js/v1.0.2/Chart.min.js"></script> -->
-
-  <!-- <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script> -->
-
-</body>
-</html>
+    </div> -->

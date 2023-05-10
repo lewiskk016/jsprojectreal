@@ -49,13 +49,6 @@ function createChart(currencyData, macroData) {
   //   myChart.update();
   // }
 
-
-
-
-
-
-
-
   function updateChart(updatedCurrencyData, updatedMacroData) {
     const currencyDates = updatedCurrencyData.observations.map(entry => entry.date);
     const currencyValues = updatedCurrencyData.observations.map(entry => entry.value);
@@ -68,18 +61,11 @@ function createChart(currencyData, macroData) {
     myChart.update();
   }
 
-
-
-
-
-
-
-
-
   myChart = new Chart(ctx, {
     type: 'line',
     data: {
       labels: currencyData.observations.map(entry => entry.date),
+      // label: macroData.observations.map(entry => entry.date),
       datasets: [{
         type: 'line',
         label: 'Currency Data',
@@ -131,13 +117,13 @@ function createChart(currencyData, macroData) {
         //     unit: 'month',
         //   }
         // }],
-        //   // id: 'cc',
-        //   type: 'linear',
+          // // id: 'cc',
+          // type: 'linear',
 
-        //   }, {
-        //   // id: 'ma',
-        //   type: 'linear',
-        //   }],
+          // }, {
+          // // id: 'ma',
+          // type: 'linear',
+          // }],
 
 
         yAxes: [{
@@ -155,21 +141,21 @@ function createChart(currencyData, macroData) {
 
       },
       plugins: {
-        // decimation: {
-        //   enabled: true,
-        //   algorithm: 'lttb',
-        // },
-        // zoom: {
-        //   zoom: {
-        //     wheel: {
-        //       enabled: true,
-        //     },
-        //     pinch: {
-        //       enabled: true,
-        //     },
-        //     mode: 'xy',
-        //   },
-        // },
+        decimation: {
+          enabled: true,
+          algorithm: 'lttb',
+        },
+        zoom: {
+          zoom: {
+            wheel: {
+              enabled: true,
+            },
+            pinch: {
+              enabled: true,
+            },
+            mode: 'xy',
+          },
+        },
       },
       elements: {
         line: {
