@@ -1,7 +1,3 @@
-let currencyData;
-let macroData;
-
-
 fetch('data/eur_usd_m.json')
   .then(response => response.json())
   .then(currencyData => {
@@ -117,9 +113,9 @@ function createChart(currencyData, macroData) {
     if (selectedCurrency === 'currency0') {
       dataFile = 'data/eur_usd_m.json';
     } else if (selectedCurrency === 'currency1') {
-      dataFile = 'data/gbp_usd_m.json';
-    } else if (selectedCurrency === 'currency2') {
-      dataFile = 'data/usd_chf_m.json';
+      dataFile = 'data/gbp_usdd.json';
+    // } else if (selectedCurrency === 'currency2') {
+    //   dataFile = 'data/usd_chff.json';
     } else if (selectedCurrency === 'currency3') {
       dataFile = 'data/usd_jpy_m.json';
     }
@@ -146,8 +142,6 @@ function createChart(currencyData, macroData) {
             dataFile = 'data/employment.json';
         } else if (selectedMacroData === 'macroData2') {
             dataFile = 'data/fedfunds.json';
-        // } else if (selectedMacroData === 'macroData3') {
-        //     dataFile = 'data/gdp.json';
         }
         console.log('Macro data file:', dataFile);
         fetch(dataFile)
