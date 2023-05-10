@@ -22,7 +22,7 @@ function createChart(currencyData, macroData) {
   const ctx = document.getElementById('myChart').getContext('2d');
   let myChart = null;
 
-
+// test
 
 
 
