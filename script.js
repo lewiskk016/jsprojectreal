@@ -72,6 +72,13 @@ function createChart(currencyData, macroData) {
           type: 'linear',
           position: 'left',
           display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Exchange Rate'
+          },
+          ticks: {
+            callback: function(value, index, values) { return value.toFixed(3)}
+          }
       }, {
           id: 'macro',
           type: 'linear',
