@@ -113,11 +113,11 @@ function createChart(currencyData, macroData) {
     if (selectedCurrency === 'currency0') {
       dataFile = 'data/eur_usd_m.json';
     } else if (selectedCurrency === 'currency1') {
-      dataFile = 'data/gbp_usdd.json';
+      dataFile = 'data/usd_jpy_m.json';
     // } else if (selectedCurrency === 'currency2') {
     //   dataFile = 'data/usd_chff.json';
     } else if (selectedCurrency === 'currency3') {
-      dataFile = 'data/usd_jpy_m.json';
+      dataFile = 'data/gbp_usdd.json';
     }
 
     console.log('Currency data file:', dataFile);
