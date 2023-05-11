@@ -34,7 +34,7 @@
     border-radius: 10px;
     background-color: #dcf0bf;
     font: 20px Arial;
-    padding: 15px;
+    padding: 10px;
     color: #000000b0;
   }
 
@@ -42,7 +42,7 @@
     display: flex;
     position: relative;
     border-radius: 15px;
-    width: 600px;
+    width: 625px;
     height: 500px;
     background-color: #ecf8dc;
   }
