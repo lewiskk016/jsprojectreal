@@ -17,7 +17,7 @@ This is a web application that displays currency exchange rates and macroeconomi
 https://lewiskk016.github.io/jsprojectreal/
 2. Select the desired currency pair from the "Currency" dropdown menu.
 3. Select the desired macroeconomic data from the "Macro Data" dropdown menu.
-4. The chart will display the exchange rate and macroeconomic data over time.
+4. The chart will display the exchange rate and macroeconomic data from January, 1999 until the present.
 5. Hover over the chart to view tooltips with detailed information.
 
 ## File Structure
@@ -33,7 +33,7 @@ https://lewiskk016.github.io/jsprojectreal/
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under Kevin Lewis (LICENSE).
 
 ## Acknowledgements
 

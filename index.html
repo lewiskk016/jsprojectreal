@@ -12,23 +12,23 @@
 
 <body>
   <div class="chartWrapper">
+    <h1 class="forex-title">FOREX FACADE</h1>
     <div class="chartMenu">
       <label for="currency">Currency:</label>
-        <select id="currency">
-                <option value="currency0">EUR/USD</option>
-                <option value="currency1">USD/JPY</option>
-                <!-- <option value="currency2">USD/CHF</option> -->
-                <option value="currency3">GBP/USD</option>
-        </select>
-        <label for="macroData">Macro Data:</label>
-        <select id="macroData">
-                <option value="macroData0">Consumer Price Index</option>
-                <option value="macroData1">Employment (millions)</option>
-                <option value="macroData2">Federal Funds Rate</option>
-                <!-- <option value="macroData3">GDP (billions)</option> -->
-        </select>
+      <select id="currency">
+        <option value="currency0">EUR/USD</option>
+        <option value="currency1">USD/JPY</option>
+        <option value="currency3">GBP/USD</option>
+      </select>
+      <label for="macroData">Macro Data:</label>
+      <select id="macroData">
+        <option value="macroData0">Consumer Price Index</option>
+        <option value="macroData1">Employment (millions)</option>
+        <option value="macroData2">Federal Funds Rate</option>
+        <option value="macroData3">Money Supply</option>
+      </select>
 
-        <button id="instructionsButton">Instructions</button>
+      <button id="instructionsButton" class="active">Instructions</button>
     </div>
 
     <div class="chartAreaWrapper">
@@ -36,30 +36,54 @@
     </div>
 
     <div class="instructionsWrapper" id="instructionsWrapper">
-      <h3>Instructions</h3>
-         <p>As global trade increases, the foreign exchange market has become increasingly important,</p>
-         <div class="instructionsClose">
-            <button id="closeButton">Close</button>
-         </div>
+      <h3>FOREX FACADE</h3>
+      <p>As global trade increases, the foreign exchange market has become increasingly important to facilitate cross-border commerce.This graph is meant to show the relationship between exchange rates and macroeconomic factors. The </p>
+      <div class="instructionsClose">
+        <button id="closeButton">Close</button>
       </div>
     </div>
+  </div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
-    <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
+  <script src="script.js"></script>
 
     <script>
+        // document.getElementById('instructionsButton').addEventListener('click', function() {
+        // document.getElementById('instructionsWrapper').style.display = 'block';
+        // });
+
         document.getElementById('instructionsButton').addEventListener('click', function() {
-        document.getElementById('instructionsWrapper').style.display = 'block';
+        const instructionsWrapper = document.getElementById('instructionsWrapper');
+        instructionsWrapper.style.display = instructionsWrapper.style.display === 'block' ? 'none' : 'block';
+        this.classList.toggle('active');
         });
 
 
         document.getElementById('closeButton').addEventListener('click', function() {
         document.getElementById('instructionsWrapper').style.display = 'none';
         });
-    </script>
 
+        window.addEventListener('resize', function() {
+        const instructionsWrapper = document.getElementById('instructionsWrapper');
+        if (instructionsWrapper.style.display === 'block') {
+        adjustInstructionsWrapperPosition(instructionsWrapper);
+        }
+        });
+
+        function adjustInstructionsWrapperPosition(wrapper) {
+        const windowHeight = window.innerHeight;
+        const wrapperHeight = wrapper.offsetHeight;
+
+        if (wrapperHeight >= windowHeight) {
+        wrapper.style.top = '10px';
+        } else {
+        const topOffset = Math.max((windowHeight - wrapperHeight) / 2, 10);
+        wrapper.style.top = topOffset + 'px';
+        }
+        }
+    </script>
 </body>
 </html>
 
