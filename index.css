@@ -24,7 +24,8 @@
     font-size: 30px;
     font-weight: bold;
     margin: 10px;
-    font: 30px Times New Roman, Times, serif;
+    font: 35px Times New Roman, Times, serif;
+    color:rgba(67, 9, 226, 0.956)
   }
 
   .chartMenu {
