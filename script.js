@@ -149,7 +149,7 @@ function createChart(currencyData, macroData) {
             dataFile = 'data/employment.json';
         } else if (selectedMacroData === 'macroData2') {
             dataFile = 'data/fedfunds.json';
-        } else if (selectedMacroData === 'macroData3') { dataFile = 'data/m2.json';
+        // } else if (selectedMacroData === 'macroData3') { dataFile = 'data/balancesheet.json';
       }
 
         console.log('Macro data file:', dataFile);
