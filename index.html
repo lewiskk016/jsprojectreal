@@ -1,3 +1,7 @@
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +15,6 @@
 
 </head>
 
-
 <body>
   <div class="chartWrapper">
     <h1 class="forex-title">FOREX FACADE</h1>
@@ -19,7 +22,7 @@
       <a href="https://github.com/lewiskk016" target="_blank">
         <img src="github-mark-white.png"/>
       </a>
-      <a href="https://www.linkedin.com" target="_blank">
+      <a href="https://linkedin.com/in/kevin-lewis-5b0baa27b/" target="_blank">
         <img src="icons8-linkedin-30.png"/>
       </a>
   </div>
@@ -35,10 +38,16 @@
         <option value="macroData0">Consumer Price Index (percent)</option>
         <option value="macroData1">Employment (millions)</option>
         <option value="macroData2">Federal Funds Rate (percent)</option>
-        <!-- <option value="macroData3">Federal Reserve Balance Sheet</option> -->
       </select>
 
       <button id="instructionsButton" class="active">Instructions</button>
+        <input type="text" id="startDateInput" placeholder="01/01/1999">
+        <input type="text" id="endDateInput" placeholder="05/01/2023">
+        <button id="dateRangeButton" class="active">Select Date Range</button>
+
+        <div>
+          <span id="exchangeRate"></span>
+        </div>
     </div>
 
     <div class="chartAreaWrapper">
@@ -59,70 +68,87 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
   <script src="script.js"></script>
 
-    <script>
-        // document.getElementById('instructionsButton').addEventListener('click', function() {
-        // document.getElementById('instructionsWrapper').style.display = 'block';
-        // });
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script>
+  document.getElementById('instructionsButton').addEventListener('click', function() {
+    const instructionsWrapper = document.getElementById('instructionsWrapper');
+    instructionsWrapper.style.display = instructionsWrapper.style.display === 'block' ? 'none' : 'block';
+    this.classList.toggle('active');
+  });
 
-        document.getElementById('instructionsButton').addEventListener('click', function() {
-        const instructionsWrapper = document.getElementById('instructionsWrapper');
-        instructionsWrapper.style.display = instructionsWrapper.style.display === 'block' ? 'none' : 'block';
-        this.classList.toggle('active');
-        });
+  document.getElementById('closeButton').addEventListener('click', function() {
+    document.getElementById('instructionsWrapper').style.display = 'none';
+  });
 
+  window.addEventListener('resize', function() {
+    const instructionsWrapper = document.getElementById('instructionsWrapper');
+    if (instructionsWrapper.style.display === 'block') {
+      adjustInstructionsWrapperPosition(instructionsWrapper);
+    }
+  });
 
-        document.getElementById('closeButton').addEventListener('click', function() {
-        document.getElementById('instructionsWrapper').style.display = 'none';
-        });
+  document.getElementById('dateRangeButton').addEventListener('click', function() {
+    const startDateInput = document.getElementById('startDateInput');
+    const endDateInput = document.getElementById('endDateInput');
+    const startDate = moment(startDateInput.value, 'MM/DD/YYYY');
+    const endDate = moment(endDateInput.value, 'MM/DD/YYYY');
 
-        window.addEventListener('resize', function() {
-        const instructionsWrapper = document.getElementById('instructionsWrapper');
-        if (instructionsWrapper.style.display === 'block') {
-        adjustInstructionsWrapperPosition(instructionsWrapper);
-        }
-        });
+    // Check if start date is empty
+    if (!startDate.isValid()) {
+      // Set default start date to the first available date
+      startDateInput.value = '01/01/1999';
+    }
 
-        // function adjustInstructionsWrapperPosition(wrapper) {
-        // const windowHeight = window.innerHeight;
-        // const wrapperHeight = wrapper.offsetHeight;
-        // // const wrapperBottom = wrapper.offsetTop + wrapperHeight;
+    // Check if end date is empty
+    if (!endDate.isValid()) {
+      // Set default end date to the last available date
+      endDateInput.value = '05/01/2023';
+    }
 
+    // Process the selected date range and update the chart accordingly
+    processDateRange(startDate, endDate);
+  });
 
-        // if (wrapperHeight >= windowHeight) {
-        //   wrapper.style.top = windowHeight - wrapperHeight - 10 + 'px';
-        // wrapper.style.top = '10px';
-        // } else {
-        // const topOffset = Math.max((windowHeight - wrapperHeight) / 2, 10);
-        // wrapper.style.top = topOffset + 'px';
-        // }
-        // }
-    </script>
+  function processDateRange(startDate, endDate) {
+    // TODO: Implement chart update logic based on the selected date range
+    console.log('Start Date:', startDate);
+    console.log('End Date:', endDate);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const currencySelect = document.getElementById('currency');
+    const macroDataSelect = document.getElementById('macroData');
+    const dateRangeButton = document.getElementById('dateRangeButton');
+
+    currencySelect.addEventListener('change', function() {
+      const startDateInput = document.getElementById('startDateInput');
+      const endDateInput = document.getElementById('endDateInput');
+      const startDate = moment(startDateInput.value, 'MM/DD/YYYY');
+      const endDate = moment(endDateInput.value, 'MM/DD/YYYY');
+
+      // Trigger the "Select Date Range" button click event
+      dateRangeButton.click();
+
+      // Update the date inputs with the default values
+      startDateInput.value = '01/01/1999';
+      endDateInput.value = '05/01/2023';
+    });
+
+    macroDataSelect.addEventListener('change', function() {
+      const startDateInput = document.getElementById('startDateInput');
+      const endDateInput = document.getElementById('endDateInput');
+      const startDate = moment(startDateInput.value, 'MM/DD/YYYY');
+      const endDate = moment(endDateInput.value, 'MM/DD/YYYY');
+
+      // Trigger the "Select Date Range" button click event
+      dateRangeButton.click();
+
+      // Update the date inputs with the default values
+      startDateInput.value = '01/01/1999';
+      endDateInput.value = '05/01/2023';
+    });
+  });
+</script>
 
 </body>
 </html>
-
-
-
-
-
-
- <!-- <canvas id="myChartAxis"></canvas> -->
-      <!-- <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div class="currencies">
-              <label for="currency">Currency:</label>
-              <select id="currency">
-
-              </select>
-            <div> -->
-              <!-- <label for="macroData">Macro Data:</label>
-              <select id="macroData"> -->
-
-                <!-- <option value="macro3">GDP</option> -->
-              <!-- </select>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
