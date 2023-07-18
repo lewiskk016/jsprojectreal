@@ -42,7 +42,7 @@ function createChart(currencyData, macroData) {
     // Check if end date is empty
     if (!endDate.isValid()) {
       // Set default end date to the last available date
-      endDateInput.value = '05/01/2023';
+      endDateInput.value = '06/01/2023';
       alert('Invalid end date. Default end date range added.');
       return;
     }
@@ -58,7 +58,7 @@ function createChart(currencyData, macroData) {
     // Check if end date is after the maximum allowed date
     const maxDate = moment('05/01/2023', 'MM/DD/YYYY');
     if (endDate.isAfter(maxDate)) {
-      endDateInput.value = '05/01/2023';
+      endDateInput.value = '06/01/2023';
       alert('End date cannot be after 05/01/2023. Default end date range added.');
       return;
     }
@@ -66,7 +66,7 @@ function createChart(currencyData, macroData) {
     // Check if start date is after end date
     if (startDate.isAfter(endDate)) {
       startDateInput.value = '01/01/1999';
-      endDateInput.value = '05/01/2023';
+      endDateInput.value = '06/01/2023';
       alert('Start date cannot be after end date. Default start and end date range added.');
       return;
     }
