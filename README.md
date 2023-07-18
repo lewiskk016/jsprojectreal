@@ -25,9 +25,10 @@ https://lewiskk016.github.io/jsprojectreal/
 - `index.html`: HTML file that contains the structure and elements of the web application.
 - `index.css`: CSS file that styles the web application.
 - `script.js`: JavaScript file that handles data retrieval and chart creation.
+- `rates.js`: JavaScript file that handles currency exchange rate data retrieval.
 
 ## Data Sources
-
+- Exchange rate api: Free Currency Api
 - Currency data: FRED (Federal Reserve Economic Data) API
 - Macro data: FRED (Federal Reserve Economic Data) API
 
@@ -36,6 +37,6 @@ https://lewiskk016.github.io/jsprojectreal/
 This project is licensed under Kevin Lewis (LICENSE).
 
 ## Acknowledgements
-
+- [Free Currency Api](https://freecurrencyapi.net/)
 - [Chart.js](https://www.chartjs.org/)
 - [FRED (Federal Reserve Economic Data)](https://fred.stlouisfed.org/)
