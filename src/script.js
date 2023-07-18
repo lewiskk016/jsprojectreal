@@ -17,11 +17,13 @@ fetch('data/eur_usd_m.json')
     console.error('Error retrieving currency data:', error);
   });
 
+
 function createChart(currencyData, macroData) {
   const currencySelect = document.getElementById('currency');
   const macroDataSelect = document.getElementById('macroData');
   const ctx = document.getElementById('myChart').getContext('2d');
   let myChart = null;
+
 
   function updateChart(updatedCurrencyData, updatedMacroData) {
     const startDateInput = document.getElementById('startDateInput');

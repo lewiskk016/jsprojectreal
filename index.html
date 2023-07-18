@@ -18,15 +18,9 @@
 <body>
   <div class="chartWrapper">
     <h1 class="forex-title">FOREX FACADE</h1>
-    <div class="footer">
-      <a href="https://github.com/lewiskk016" target="_blank">
-        <img src="github-mark-white.png"/>
-      </a>
-      <a href="https://linkedin.com/in/kevin-lewis-5b0baa27b/" target="_blank">
-        <img src="icons8-linkedin-30.png"/>
-      </a>
-  </div>
+
     <div class="chartMenu">
+      <button id="instructionsButton" class="active">Instructions</button>
       <label for="currency">Currency:</label>
       <select id="currency">
         <option value="currency0">EUR/USD</option>
@@ -40,13 +34,22 @@
         <option value="macroData2">Federal Funds Rate (percent)</option>
       </select>
 
-      <button id="instructionsButton" class="active">Instructions</button>
+
         <input type="text" id="startDateInput" placeholder="01/01/1999">
         <input type="text" id="endDateInput" placeholder="05/01/2023">
         <button id="dateRangeButton" class="active">Select Date Range</button>
 
-        <div>
-          <span id="exchangeRate"></span>
+        <div class="footer">
+          <a href="https://github.com/lewiskk016" target="blank">
+            <img src="github-mark-white.png"/>
+          </a>
+          <a href="https://linkedin.com/in/kevin-lewis-5b0baa27b/" target="blank">
+            <img src="icons8-linkedin-30.png"/>
+          </a>
+          <label id="currencyLabel" for="inputAmount">Exchange Rate Converter:</label>
+          <input type="number" id="inputAmount" min="0" step="0.01" placeholder="Enter an amount ">
+          <button id="convertButton" class="active">Convert</button>
+          <div id="result" class="red-text"></div>
         </div>
     </div>
 
@@ -55,8 +58,9 @@
     </div>
 
     <div class="instructionsWrapper" id="instructionsWrapper">
-      <h3>FOREX FACADE</h3>
-      <p>As global trade increases, the foreign exchange market has become increasingly important to facilitate cross-border commerce.This graph is meant to show the relationship between exchange rates and macroeconomic factors. By selecting different "Currency" pairs and "Macro Data" indicators, you will be able to render different graphs to understand the interaction between the two. Most notably, the US Dollar/Japanese Yen is commonly used to forcast global economic conditions. You can see more detailed values by hovering over the chart rendering. </p>
+      <h3 class="instruction-title">FOREX FACADE</h3>
+      <p>As global trade increases, the foreign exchange market has become increasingly important to facilitate cross-border commerce.This graph is meant to show the relationship between exchange rates and macroeconomic factors.</p>
+      <p>By selecting different "Currency" pairs and "Macro Data" indicators, you will be able to render different graphs to understand the interaction between the two. Moreover, you can customize time-ranges by specifying the dates in the top right of the graph. You can see precise values of exchange rate and macro data by hovering over the chart rendering. Furthermore, there is an exchange rate calculator that will convert the real-time exchange rate the displayed currency-pair. </p>
       <div class="instructionsClose">
         <button id="closeButton">Close</button>
       </div>
@@ -66,10 +70,19 @@
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
-  <script src="script.js"></script>
+  <script type="module" src="../src/script.js"></script>
+  <script src="src/rates.js"></script>
+
+  <script>
+    document.getElementById('convertButton').addEventListener('click', convertCurrency);
+  </script>
+
+
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
+
+
   document.getElementById('instructionsButton').addEventListener('click', function() {
     const instructionsWrapper = document.getElementById('instructionsWrapper');
     instructionsWrapper.style.display = instructionsWrapper.style.display === 'block' ? 'none' : 'block';
@@ -86,6 +99,8 @@
       adjustInstructionsWrapperPosition(instructionsWrapper);
     }
   });
+
+
 
   document.getElementById('dateRangeButton').addEventListener('click', function() {
     const startDateInput = document.getElementById('startDateInput');
@@ -148,6 +163,8 @@
       endDateInput.value = '05/01/2023';
     });
   });
+
+
 </script>
 
 </body>
