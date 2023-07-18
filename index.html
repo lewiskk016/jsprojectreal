@@ -1,7 +1,3 @@
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +16,7 @@
     <h1 class="forex-title">FOREX FACADE</h1>
 
     <div class="chartMenu">
+    <div class="chartMenu1">
       <button id="instructionsButton" class="active">Instructions</button>
       <label for="currency">Currency:</label>
       <select id="currency">
@@ -34,10 +31,12 @@
         <option value="macroData2">Federal Funds Rate (percent)</option>
       </select>
 
-
+      <div class="dateRangeWrapper">
         <input type="text" id="startDateInput" placeholder="01/01/1999">
         <input type="text" id="endDateInput" placeholder="05/01/2023">
         <button id="dateRangeButton" class="active">Select Date Range</button>
+      </div>
+    </div>
 
         <div class="footer">
           <a href="https://github.com/lewiskk016" target="blank">

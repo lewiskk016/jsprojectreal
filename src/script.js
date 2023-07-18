@@ -35,12 +35,40 @@ function createChart(currencyData, macroData) {
     if (!startDate.isValid()) {
       // Set default start date to the first available date
       startDateInput.value = '01/01/1999';
+      alert('Invalid start date. Default start date range added.');
+      return;
     }
 
     // Check if end date is empty
     if (!endDate.isValid()) {
       // Set default end date to the last available date
       endDateInput.value = '05/01/2023';
+      alert('Invalid end date. Default end date range added.');
+      return;
+    }
+
+    // Check if start date is before the minimum allowed date
+    const minDate = moment('01/01/1999', 'MM/DD/YYYY');
+    if (startDate.isBefore(minDate)) {
+      startDateInput.value = '01/01/1999';
+      alert('Start date cannot be before 01/01/1999. Default start date range added.');
+      return;
+    }
+
+    // Check if end date is after the maximum allowed date
+    const maxDate = moment('05/01/2023', 'MM/DD/YYYY');
+    if (endDate.isAfter(maxDate)) {
+      endDateInput.value = '05/01/2023';
+      alert('End date cannot be after 05/01/2023. Default end date range added.');
+      return;
+    }
+
+    // Check if start date is after end date
+    if (startDate.isAfter(endDate)) {
+      startDateInput.value = '01/01/1999';
+      endDateInput.value = '05/01/2023';
+      alert('Start date cannot be after end date. Default start and end date range added.');
+      return;
     }
 
     // Filter the data based on the selected date range
@@ -57,8 +85,8 @@ function createChart(currencyData, macroData) {
     myChart.data.datasets[0].data = currencyValues;
     myChart.data.datasets[1].data = macroValues;
     myChart.update();
-
   }
+
 
   myChart = new Chart(ctx, {
     type: 'line',
