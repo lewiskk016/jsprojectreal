@@ -59,7 +59,7 @@ function createChart(currencyData, macroData) {
     const maxDate = moment('05/01/2023', 'MM/DD/YYYY');
     if (endDate.isAfter(maxDate)) {
       endDateInput.value = '06/01/2023';
-      alert('End date cannot be after 05/01/2023. Default end date range added.');
+      alert('End date cannot be after 06/01/2023. Default end date range added.');
       return;
     }
 
